@@ -115,9 +115,9 @@ interface DashboardStats {
 }
 
 const API_URL = window.cordova
-  ? 'https://citylibrary.onrender.com/api'
+  ? 'https://nirvanalibrary.onrender.com/api'
   : process.env.NODE_ENV === 'production'
-    ? 'https://citylibrary.onrender.com/api'
+    ? 'https://nirvanalibrary.onrender.com/api'
     : 'http://localhost:3000/api';
 
 const apiClient = axios.create({
