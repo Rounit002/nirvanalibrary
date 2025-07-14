@@ -1,0 +1,41 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "build": "npm install && cd ../Frontend && npm install && npm run build && cd ../Backend && rimraf dist && npx cpr ../Frontend/dist dist",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@sendinblue/client": "^3.3.1",
+    "@tanstack/react-query": "^5.76.1",
+    "axios": "^1.9.0",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cloudinary": "^2.6.0",
+    "connect-pg-simple": "^10.0.0",
+    "cors": "^2.8.5",
+    "cpr": "^3.0.1",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.2",
+    "node-cron": "^3.0.3",
+    "path-to-regexp": "^6.2.2",
+    "pg": "^8.14.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.1",
+    "react-select": "^5.10.1",
+    "react-time-picker": "^7.0.0",
+    "rimraf": "^5.0.5",
+    "sonner": "^2.0.3",
+    "winston": "^3.14.2"
+  }
+}

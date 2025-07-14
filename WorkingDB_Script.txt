@@ -1,0 +1,153 @@
+CREATE TABLE expenses (
+    id SERIAL PRIMARY KEY,
+    amount NUMERIC NOT NULL,
+    date DATE NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    title VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE hostel_branches (
+    id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE hostel_students (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    father_name VARCHAR(255),
+    mother_name VARCHAR(255),
+    address TEXT,
+    registration_number VARCHAR(50),
+    room_number VARCHAR(20),
+    gender TEXT,
+    food_preference TEXT,
+    religion TEXT,
+    aadhar_image_url VARCHAR(255),
+    profile_image_url VARCHAR(255),
+    phone_number VARCHAR(15),
+    aadhar_number VARCHAR(20),
+    branch_id INTEGER,
+    fee NUMERIC DEFAULT 0.0,
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE schedules (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR,
+    description TEXT,
+    fee NUMERIC,
+    time TIME WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE,
+    event_date DATE
+);
+
+CREATE TABLE seats (
+    id SERIAL PRIMARY KEY,
+    seat_number VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE session (
+    sid VARCHAR NOT NULL PRIMARY KEY,
+    sess JSON NOT NULL,
+    expire TIMESTAMP WITHOUT TIME ZONE,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now()
+);
+
+CREATE TABLE public.settings (
+    key VARCHAR(255) PRIMARY KEY,  -- Character varying type with a maximum length of 255, set as the primary key
+    value TEXT                     -- Optional text field for the value
+);
+
+CREATE TABLE public.student_membership_history (
+    id SERIAL PRIMARY KEY,                   -- Integer type with auto-increment (nextval)
+    student_id INTEGER NOT NULL,             -- Required field for student ID
+    membership_start DATE NOT NULL,          -- Required field for membership start date
+    membership_end DATE NOT NULL,            -- Required field for membership end date
+    total_fee NUMERIC NOT NULL,              -- Required field for total fee
+    amount_paid NUMERIC NOT NULL,            -- Required field for amount paid
+    due_amount NUMERIC NOT NULL,             -- Required field for due amount
+    changed_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(), -- Required field with default value as current timestamp
+    shift_id INTEGER,                        -- Optional field for shift ID
+    seat_id INTEGER,                         -- Optional field for seat ID
+    status VARCHAR(50) NOT NULL,             -- Required field for membership status
+    email VARCHAR,                           -- Optional field for email
+    phone VARCHAR,                           -- Optional field for phone number
+    address TEXT,                            -- Optional field for address
+    profile_image_url TEXT,                  -- Optional field for profile image URL
+    name VARCHAR(255)                        -- Optional field for student name
+);
+
+CREATE TABLE public.student_transactions (
+    id SERIAL PRIMARY KEY,                   -- Integer type with auto-increment (nextval)
+    student_id INTEGER NOT NULL,             -- Required field for student ID
+    amount NUMERIC NOT NULL,                 -- Required field for the transaction amount
+    date DATE NOT NULL,                      -- Required field for the transaction date
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP, -- Optional field with default value as current timestamp
+    type VARCHAR(50) NOT NULL                -- Required field for the transaction type
+);
+
+CREATE TABLE public.students (
+    id SERIAL PRIMARY KEY,                   -- Integer type with auto-increment (nextval)
+    membership_end DATE,                     -- Optional field for membership end date
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(), -- Required field with default value as current timestamp
+    shift_id INTEGER,                        -- Optional field for shift ID
+    seat_id INTEGER,                         -- Optional field for seat ID
+    total_fee NUMERIC DEFAULT 0,             -- Optional field for total fee, default value 0
+    amount_paid NUMERIC DEFAULT 0,           -- Optional field for amount paid, default value 0
+    due_amount NUMERIC DEFAULT 0,            -- Optional field for due amount, default value 0
+    membership_start DATE,                   -- Optional field for membership start date
+    name VARCHAR,                            -- Optional field for student name
+    email VARCHAR,                           -- Optional field for email
+    phone VARCHAR,                           -- Optional field for phone number
+    status VARCHAR,                          -- Optional field for student status
+    address TEXT,                            -- Optional field for address
+    profile_image_url TEXT,                  -- Optional field for profile image URL
+    admission_no TEXT                        -- Optional field for admission number
+);
+
+CREATE TABLE public.transactions (
+    id SERIAL PRIMARY KEY,                   -- Integer type with auto-increment (nextval)
+    updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),  -- Optional field with default value as current timestamp
+    cash_receipt NUMERIC DEFAULT 0,           -- Optional field for cash receipt, default value 0
+    online_receipt NUMERIC DEFAULT 0,         -- Optional field for online receipt, default value 0
+    cash_expense NUMERIC DEFAULT 0,           -- Optional field for cash expense, default value 0
+    online_expense NUMERIC DEFAULT 0,         -- Optional field for online expense, default value 0
+    created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT now(), -- Optional field with default value as current timestamp
+    name VARCHAR(255) NOT NULL                -- Required field for the transaction name
+);
+
+
+CREATE TABLE public.users (
+    id SERIAL PRIMARY KEY,                   -- Integer type with auto-increment (nextval)
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT now(), -- Required field with default value as current timestamp
+    password VARCHAR NOT NULL,               -- Required field for password
+    email VARCHAR,                           -- Optional field for email
+    role VARCHAR NOT NULL,                   -- Required field for user role
+    full_name VARCHAR,                       -- Optional field for full name
+    username VARCHAR NOT NULL                -- Required field for username
+);
+
+ALTER TABLE hostel_students
+ADD COLUMN security_money DECIMAL(10, 2) DEFAULT 0.0,
+ADD COLUMN duration TEXT,
+ADD COLUMN online_payment DECIMAL(10, 2) DEFAULT 0.0,
+ADD COLUMN cash_payment DECIMAL(10, 2) DEFAULT 0.0,
+ADD COLUMN remark TEXT;
+
+ALTER TABLE students
+ADD COLUMN cash NUMERIC(10,2) DEFAULT 0,
+ADD COLUMN online NUMERIC(10,2) DEFAULT 0,
+ADD COLUMN remark TEXT;
+
+ALTER TABLE student_membership_history
+ADD COLUMN cash NUMERIC(10,2) DEFAULT 0,
+ADD COLUMN online NUMERIC(10,2) DEFAULT 0,
+ADD COLUMN remark TEXT;
+
+ALTER TABLE student_membership_history
+ADD COLUMN security_money NUMERIC(10, 2) DEFAULT 0;
+ALTER TABLE students
+ADD COLUMN security_money NUMERIC(10, 2) DEFAULT 0;
